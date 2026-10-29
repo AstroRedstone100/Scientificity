@@ -9,6 +9,7 @@ def Probability_Density(X, DEVIATION, MEAN, M_DENOM):
     return (np.exp(-0.5 * ((X - MEAN) / DEVIATION) ** 2) * M_DENOM)
 
 MEAN = float(input("Enter the mean of your distribution: "))
+INEQ = input("Enter 'LEFT' if you want to evaluate the <= probability or 'RIGHT' for evaluating the >= probability: ")
 DEVIATION = float(input("Enter the standard deviation of your distribution: "))
 SOME_CONST = 1 / (np.sqrt(2) * DEVIATION); PI2_INVERSE = 1 / np.sqrt(np.pi)
 UP_LIM = float(input("Enter the upper limit of your probability evaluation: "))
@@ -25,7 +26,10 @@ while abs(term) >= 1e-6:
     term = (-1 if n & 1 == 1 else 1) * (U ** TEMP_CONST) / (math.factorial(n) * TEMP_CONST)
 
 sum = sum * PI2_INVERSE + 0.5
-print(f"There is a {(sum * 100)}% chance that your desired event will happen")
+if (INEQ == "RIGHT"):
+    sum = 1 - sum
+if (INEQ == "LEFT" or INEQ == "RIGHT"):
+    print(f"There is a {sum * 100}% chance that your desired event will happen")
 
 X = np.linspace(START, MEAN + RANGE, int(RANGE) * 5)
 Y = Probability_Density(X, DEVIATION, MEAN, SOME_CONST * PI2_INVERSE)
